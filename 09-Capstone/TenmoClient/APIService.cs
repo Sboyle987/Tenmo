@@ -8,8 +8,9 @@ using TenmoServer.Models;
 
 namespace TenmoClient
 {
-    class APIService
+    public class APIService
     {
+        //private readonly static string API_Base_Url = "https://localhost:44315/";
         private readonly IRestClient client;
         public APIService(string baseUrl, string token)
         {

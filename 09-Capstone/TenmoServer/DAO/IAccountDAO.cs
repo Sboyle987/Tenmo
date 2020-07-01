@@ -1,4 +1,5 @@
-﻿using TenmoServer.Models;
+﻿using System.Collections.Generic;
+using TenmoServer.Models;
 
 namespace TenmoServer.DAO
 {
@@ -6,6 +7,8 @@ namespace TenmoServer.DAO
     {
         Account GetAccountByName(string userName);
         decimal GetBalanceByName(string userName);
+
+        Dictionary<Account, LoginUser> GetAccount();
 
     }
 }

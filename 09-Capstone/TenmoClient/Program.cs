@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TenmoClient.Data;
+using TenmoServer.Models;
 
 namespace TenmoClient
 {
@@ -8,6 +9,10 @@ namespace TenmoClient
     {
         private static readonly ConsoleService consoleService = new ConsoleService();
         private static readonly AuthService authService = new AuthService();
+        private static APIService apiService;
+        private readonly static string API_Base_Url = "https://localhost:44315";
+
+
 
         static void Main(string[] args)
         {
@@ -40,9 +45,11 @@ namespace TenmoClient
                         {
                             LoginUser loginUser = consoleService.PromptForLogin();
                             API_User user = authService.Login(loginUser);
+
                             if (user != null)
                             {
                                 UserService.SetLogin(user);
+                                apiService = new APIService(API_Base_Url, user.Token);
                             }
                         }
                     }
@@ -95,7 +102,9 @@ namespace TenmoClient
                 }
                 else if (menuSelection == 1)
                 {
-                    // View your current balance
+                    //
+                    decimal balance = apiService.GetAccountBalance();
+                    Console.WriteLine($"Your current account balance is : {balance:C}");
 
                 }
                 else if (menuSelection == 2)

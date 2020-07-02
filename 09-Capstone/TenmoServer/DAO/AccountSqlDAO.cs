@@ -69,14 +69,11 @@ namespace TenmoServer.DAO
 
             try
             {
-                //TODO Make it so this list doesn't include current logged in user
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    //We only need the user Id and the Username, but this query isn't satisfying our Convert methods. 
-                    //Should we just grab all the information and then deal with it by parsing it in C#?
-                    //Reading from two tables in a query/reading with a join
+                    
                     SqlCommand cmd = new SqlCommand("select a.*, username from accounts a join users u on a.user_id = u.user_id", conn);
 
                     SqlDataReader reader = cmd.ExecuteReader();

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TenmoServer.DAO;
+using TenmoServer.Models;
 
 namespace TenmoServer.Controllers
 {
@@ -15,6 +16,8 @@ namespace TenmoServer.Controllers
     public class TransferController : TenmoController
     {
         private IAccountDAO accountDAO;
+        private ITransferDAO transferDAO;
+        private Transfers transfer;
        
         public TransferController(IAccountDAO accountDAO)
         {
@@ -23,7 +26,13 @@ namespace TenmoServer.Controllers
         [HttpGet]
         public IActionResult GetAccounts()
         {
-            return Ok(accountDAO.GetAccounts())  ;
+            return Ok(accountDAO.GetAccounts());
+        }
+        [HttpPost("exchange")]
+        public IActionResult TransferMoney()
+        {
+            transferDAO.TransferMoney(transfer);
+            return Ok();
         }
     }
 }

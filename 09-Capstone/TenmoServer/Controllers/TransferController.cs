@@ -17,11 +17,13 @@ namespace TenmoServer.Controllers
     {
         private IAccountDAO accountDAO;
         private ITransferDAO transferDAO;
-        private Transfers transfer;
-       
-        public TransferController(IAccountDAO accountDAO)
+        private IUserDAO userDAO;
+        
+        public TransferController(IAccountDAO accountDAO, ITransferDAO transferDAO, IUserDAO userDAO)
         {
             this.accountDAO = accountDAO;
+            this.transferDAO = transferDAO;
+            this.userDAO = userDAO;
         }
         [HttpGet]
         public IActionResult GetAccounts()
@@ -29,8 +31,12 @@ namespace TenmoServer.Controllers
             return Ok(accountDAO.GetAccounts());
         }
         [HttpPost("exchange")]
-        public IActionResult TransferMoney()
+        public IActionResult TransferMoney(Transfer transfer)
         {
+
+            transfer.Account_From = UserId;            
+            transfer.Transfer_Type_Id = 2;
+            transfer.Transfer_Status_Id = 2;
             transferDAO.TransferMoney(transfer);
             return Ok();
         }

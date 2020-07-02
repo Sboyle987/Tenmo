@@ -16,7 +16,7 @@ namespace TenmoServer.DAO
         {
             connectionString = dbConnectionString;
         }
-        public void TransferMoney(Transfers transfers)
+        public void TransferMoney(Transfer transfer)
         {
             string sql = @"
                 Begin Transaction
@@ -31,12 +31,12 @@ namespace TenmoServer.DAO
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    SqlCommand cmd = new SqlCommand(sql);
-                    cmd.Parameters.AddWithValue("@amount", transfers.Amount);
-                    cmd.Parameters.AddWithValue("@accountIdFrom", transfers.Account_From);
-                    cmd.Parameters.AddWithValue("@accountIdTo", transfers.Account_To);
-                    cmd.Parameters.AddWithValue("@transferType", transfers.Transfer_Type_Id);
-                    cmd.Parameters.AddWithValue("@transferStatus", transfers.Transfer_Status_Id);
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@amount", transfer.Amount);
+                    cmd.Parameters.AddWithValue("@accountIdFrom", transfer.Account_From);
+                    cmd.Parameters.AddWithValue("@accountIdTo", transfer.Account_To);
+                    cmd.Parameters.AddWithValue("@transferType", transfer.Transfer_Type_Id);
+                    cmd.Parameters.AddWithValue("@transferStatus", transfer.Transfer_Status_Id);
                     cmd.ExecuteNonQuery();
                 }
             }

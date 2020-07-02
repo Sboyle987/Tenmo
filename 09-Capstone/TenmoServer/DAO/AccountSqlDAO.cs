@@ -63,7 +63,7 @@ namespace TenmoServer.DAO
             }
             return account;
         }
-        public List<Account> GetAccount()
+        public List<Account> GetAccounts()
         {
             List<Account> accounts = new List<Account>();
 

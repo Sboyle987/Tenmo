@@ -7,8 +7,7 @@ namespace TenmoServer.DAO
     {
         Account GetAccountByName(string userName);
         decimal GetBalanceByName(string userName);
-
-        Dictionary<Account, LoginUser> GetAccount();
+        List<Account> GetAccounts();
 
     }
 }

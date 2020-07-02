@@ -23,7 +23,7 @@ namespace TenmoServer.Controllers
         [HttpGet]
         public IActionResult GetAccounts()
         {
-            return Ok(accountDAO.GetAccount())  ;
+            return Ok(accountDAO.GetAccounts())  ;
         }
     }
 }

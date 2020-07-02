@@ -12,16 +12,10 @@ namespace TenmoServer.Controllers
     [Route("[controller]")]
     [ApiController]
     [Authorize]
-    public class AccountController : ControllerBase
+    public class AccountController : TenmoController
     {
         private IAccountDAO accountDAO;
-        protected string UserName
-        {
-            get
-            {
-                return User?.Identity?.Name;
-            }
-        }
+       
         public AccountController(IAccountDAO accountDAO)
         {
             this.accountDAO = accountDAO;

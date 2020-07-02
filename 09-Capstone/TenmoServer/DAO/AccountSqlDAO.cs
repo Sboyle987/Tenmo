@@ -45,7 +45,7 @@ namespace TenmoServer.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("select * from accounts a join users u on a.user_id = u.user_id where username = @userName", conn);
+                    SqlCommand cmd = new SqlCommand("select a.*, username from accounts a join users u on a.user_id = u.user_id where username = @userName", conn);
                     cmd.Parameters.AddWithValue("@userName", userName);
 
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -63,9 +63,9 @@ namespace TenmoServer.DAO
             }
             return account;
         }
-        public Dictionary<Account, LoginUser> GetAccount()
+        public List<Account> GetAccount()
         {
-            Dictionary<Account, LoginUser> AccountUserInfo = new Dictionary<Account, LoginUser>();
+            List<Account> accounts = new List<Account>();
 
             try
             {
@@ -76,15 +76,16 @@ namespace TenmoServer.DAO
                     conn.Open();
                     //We only need the user Id and the Username, but this query isn't satisfying our Convert methods. 
                     //Should we just grab all the information and then deal with it by parsing it in C#?
-                    SqlCommand cmd = new SqlCommand("select u.user_id, username from accounts a join users u on a.user_id = u.user_id", conn);
+                    //Reading from two tables in a query/reading with a join
+                    SqlCommand cmd = new SqlCommand("select a.*, username from accounts a join users u on a.user_id = u.user_id", conn);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
                         Account account = ConvertReaderToAccount(reader);
-                        LoginUser user = ConvertReadertoUser(reader);
-                        AccountUserInfo.Add(account,user);
+                        account.Balance = 0;
+                        accounts.Add(account);
                     }
 
                 }
@@ -93,7 +94,7 @@ namespace TenmoServer.DAO
             {
                 throw;
             }
-            return AccountUserInfo;
+            return accounts;
         }
 
         private Account ConvertReaderToAccount(SqlDataReader reader)
@@ -103,7 +104,9 @@ namespace TenmoServer.DAO
             account.Account_Id = Convert.ToInt32(reader["account_id"]);
             account.User_Id = Convert.ToInt32(reader["user_id"]);
             account.Balance = Convert.ToDecimal(reader["balance"]);
-            
+            account.Username = Convert.ToString(reader["username"]);
+
+
             return account;
         }
         private LoginUser ConvertReadertoUser(SqlDataReader reader)

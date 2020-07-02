@@ -12,16 +12,10 @@ namespace TenmoServer.Controllers
     [Route("[controller]")]
     [ApiController]
     [Authorize]
-    public class TransferController : ControllerBase
+    public class TransferController : TenmoController
     {
         private IAccountDAO accountDAO;
-        protected string UserName
-        {
-            get
-            {
-                return User?.Identity?.Name;
-            }
-        }
+       
         public TransferController(IAccountDAO accountDAO)
         {
             this.accountDAO = accountDAO;
@@ -29,7 +23,7 @@ namespace TenmoServer.Controllers
         [HttpGet]
         public IActionResult GetAccounts()
         {
-            return Ok(accountDAO.GetAccount());
+            return Ok(accountDAO.GetAccount())  ;
         }
     }
 }

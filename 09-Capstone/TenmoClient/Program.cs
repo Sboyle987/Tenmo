@@ -119,7 +119,19 @@ namespace TenmoClient
                 }
                 else if (menuSelection == 4)
                 {
-                    // Send TE bucks
+                    List <Account> accounts = apiService.GetAccounts();
+                    if (accounts.Count == 0 || accounts == null)
+                    {
+                        Console.WriteLine("No users found!");
+                    }
+                    foreach (Account account in accounts)
+                    {
+
+                        Console.WriteLine(account);
+                    }
+                    int userId = GetInteger("Enter ID of user you are sending to (0 to cancel): ");
+                    decimal amount = GetDecimal("Amount: ");
+                    //TODO 1 How can we get userId and amount into the transfer into APIService?
 
                 }
                 else if (menuSelection == 5)
@@ -139,7 +151,46 @@ namespace TenmoClient
                     Console.WriteLine("Goodbye!");
                     Environment.Exit(0);
                 }
+
             }
         }
+
+        static public int GetInteger(string message)
+        {
+            int resultValue = 0;
+            while (true)
+            {
+                Console.Write(message + " ");
+                string userInput = Console.ReadLine().Trim();
+                if (int.TryParse(userInput, out resultValue))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("!!! Invalid input. Please enter a valid whole number.");
+                }
+            }
+            return resultValue;
+        }
+        static public decimal GetDecimal(string message)
+        {
+            decimal resultValue = 0;
+            while (true)
+            {
+                Console.Write(message + " ");
+                string userInput = Console.ReadLine().Trim();
+                if (decimal.TryParse(userInput, out resultValue))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("!!! Invalid input. Please enter a valid decimal number.");
+                }
+            }
+            return resultValue;
+        }
+
     }
 }

@@ -32,6 +32,26 @@ namespace TenmoClient
             }
             return accounts[0].Balance;
         }
+        public List<Account> GetAccounts() // TODO Implement client side
+        {
+            RestRequest request = new RestRequest("transfer");
+            IRestResponse<List<Account>> response = client.Get<List<Account>>(request);
+
+            CheckError(response);
+
+            List<Account> accounts = response.Data;
+            
+            return accounts;
+        }
+        public Transfer TransferMoney(Transfer transfer)
+        {
+            RestRequest request = new RestRequest("transfer/exchange");
+            request.AddJsonBody(transfer);
+            IRestResponse<Transfer> response = client.Post<Transfer>(request);
+
+            CheckError(response); // Will throw if there's an error
+            return response.Data;
+        }
 
 
         private void CheckError(IRestResponse response)

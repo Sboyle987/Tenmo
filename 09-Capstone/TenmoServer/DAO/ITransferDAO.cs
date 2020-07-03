@@ -5,7 +5,8 @@ namespace TenmoServer.DAO
 {
     public interface ITransferDAO
     {
-        List<Transfer> GetTransfers(Transfer transfer);
+        List<Transfer> GetTransfers(Account account);
+        Transfer GetTransfersById(int transfer_Id);
         Transfer TransferMoney(Transfer transfers);
     }
 }

@@ -43,9 +43,14 @@ namespace TenmoServer.Controllers
             return result;
         }
         [HttpGet("list")]
-        public IActionResult GetTransfers(Transfer transfer)
+        public IActionResult GetTransfers(Account account)
         {
-            return Ok(transferDAO.GetTransfers(transfer));
+            return Ok(transferDAO.GetTransfers(account));
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetTransfersById(int id)
+        {
+            return Ok(transferDAO.GetTransfersById(id));
         }
     }
 }

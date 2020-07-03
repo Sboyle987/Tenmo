@@ -112,11 +112,11 @@ namespace TenmoClient
                     // View your past transfers
 
                 }
-                else if (menuSelection == 3)
-                {
-                    // View your pending requests
+                //else if (menuSelection == 3)
+                //{
+                ////    View your pending requests
 
-                }
+                //}
                 else if (menuSelection == 4)
                 {
                     List <Account> accounts = apiService.GetAccounts();
@@ -135,11 +135,11 @@ namespace TenmoClient
                     
 
                 }
-                else if (menuSelection == 5)
-                {
-                    // Request TE bucks
+                //else if (menuSelection == 5)
+                //{
+                //    // Request TE bucks
 
-                }
+                //}
                 else if (menuSelection == 6)
                 {
                     // Log in as different user

@@ -2,6 +2,7 @@
 using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using System.Net;
 using System.Text;
 using TenmoServer.Models;
@@ -18,7 +19,7 @@ namespace TenmoClient
             client.Authenticator = new JwtAuthenticator(token);
         }
         
-        public decimal GetAccountBalance() // TODO Implement client side
+        public decimal GetAccountBalance()
         {
             RestRequest request = new RestRequest("account");
             IRestResponse<List<Account>> response = client.Get<List<Account>>(request);
@@ -32,7 +33,7 @@ namespace TenmoClient
             }
             return accounts[0].Balance;
         }
-        public List<Account> GetAccounts() // TODO Implement client side
+        public List<Account> GetAccounts() 
         {
             RestRequest request = new RestRequest("transfer");
             IRestResponse<List<Account>> response = client.Get<List<Account>>(request);
@@ -48,8 +49,15 @@ namespace TenmoClient
             RestRequest request = new RestRequest("transfer/exchange");
             request.AddJsonBody(transfer);
             IRestResponse<Transfer> response = client.Post<Transfer>(request);
-
-            CheckError(response); // Will throw if there's an error
+            if (response.ResponseStatus != ResponseStatus.Completed)
+            {
+                Console.WriteLine("An error occured connecting with the server");
+                return null;
+            }
+            else if (!response.IsSuccessful)
+            {
+                Console.WriteLine($"An error occured - Insufficient Funds");
+            }
             return response.Data;
         }
 

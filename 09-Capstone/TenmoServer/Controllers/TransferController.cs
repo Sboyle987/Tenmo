@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TenmoServer.DAO;
 using TenmoServer.Models;
@@ -18,7 +13,7 @@ namespace TenmoServer.Controllers
         private IAccountDAO accountDAO;
         private ITransferDAO transferDAO;
         private IUserDAO userDAO;
-        
+
         public TransferController(IAccountDAO accountDAO, ITransferDAO transferDAO, IUserDAO userDAO)
         {
             this.accountDAO = accountDAO;
@@ -33,12 +28,19 @@ namespace TenmoServer.Controllers
         [HttpPost("exchange")]
         public IActionResult TransferMoney(Transfer transfer)
         {
-
-            transfer.Account_From = UserId;            
-            transfer.Transfer_Type_Id = 2;
-            transfer.Transfer_Status_Id = 2;
-            transferDAO.TransferMoney(transfer);
-            return Ok();
+            IActionResult result;
+            decimal balance = accountDAO.GetBalanceByName(UserName);
+            if (transfer.Amount <= balance)
+            {
+                transfer.Account_From = UserId;
+                transfer.Transfer_Type_Id = 2;
+                transfer.Transfer_Status_Id = 2;
+                transferDAO.TransferMoney(transfer);
+                result = Ok();
+                return result;
+            }
+            else result = BadRequest();
+            return result;
         }
     }
 }

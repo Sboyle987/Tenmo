@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace TenmoServer.Models
 {
     public class Account
@@ -12,11 +13,11 @@ namespace TenmoServer.Models
         public decimal Balance { get; set; }
         public string Username { get; set; }
 
-        // TODO 2: ints are represented as 0? but balance and Username both show up fine?
+        // TODO 2: Only username works, other fields are not being passed into here
         public override string ToString()
-    {
-            return $"Username: {Username}";
-    }
+        {
+            return $"User ID: {Account_Id} Username: {Username}";
+        }
 
     }
 }

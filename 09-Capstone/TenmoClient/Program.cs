@@ -126,12 +126,13 @@ namespace TenmoClient
                     }
                     foreach (Account account in accounts)
                     {
-
                         Console.WriteLine(account);
                     }
-                    int userId = GetInteger("Enter ID of user you are sending to (0 to cancel): ");
-                    decimal amount = GetDecimal("Amount: ");
-                    //TODO 1 How can we get userId and amount into the transfer into APIService?
+                    Transfer newTransfer = new Transfer();
+                    newTransfer.Account_To = GetInteger("Enter ID of user you are sending to (0 to cancel): ");
+                    newTransfer.Amount = GetDecimal("Amount: ");
+                    apiService.TransferMoney(newTransfer);
+                    
 
                 }
                 else if (menuSelection == 5)
@@ -191,6 +192,6 @@ namespace TenmoClient
             }
             return resultValue;
         }
-
+        //static public Transfer GetTransfer()
     }
 }

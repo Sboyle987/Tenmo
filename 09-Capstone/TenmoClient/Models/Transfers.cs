@@ -8,8 +8,8 @@ namespace TenmoServer.Models
     public class Transfer
     {
         public int Transfer_Id { get; set; }
-        public int Transfer_Type_Id { get; set; }
-        public int Transfer_Status_Id { get; set; }
+        public int Transfer_Type_Id { get; set; } = 2;
+        public int Transfer_Status_Id { get; set; } = 2;
         public int Account_From { get; set; }
         public int Account_To { get; set; }
         public decimal Amount { get; set; }

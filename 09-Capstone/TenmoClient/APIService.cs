@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Net;
 using System.Text;
-using TenmoServer.Models;
+using TenmoClient.Models;
 
 namespace TenmoClient
 {
@@ -35,12 +35,13 @@ namespace TenmoClient
         }
         public List<Account> GetAccounts() 
         {
+            List<Account> accounts = new List<Account>();
             RestRequest request = new RestRequest("transfer");
             IRestResponse<List<Account>> response = client.Get<List<Account>>(request);
 
             CheckError(response);
-
-            List<Account> accounts = response.Data;
+            
+            accounts = response.Data;
             
             return accounts;
         }
@@ -59,6 +60,27 @@ namespace TenmoClient
                 Console.WriteLine($"An error occured - Insufficient Funds");
             }
             return response.Data;
+        }
+        public List<Transfer> GetTransfers()//this needs to take an account bc we get the transfers of the current user
+        {
+            RestRequest request = new RestRequest("transfer/list");
+            IRestResponse<List<Transfer>> response = client.Get<List<Transfer>>(request);
+
+            CheckError(response);
+
+            List<Transfer> transfers = response.Data;
+
+            return transfers;
+        }
+        public Transfer GetTransferById(int transferId)
+        {
+             {
+                RestRequest request = new RestRequest("transfer/" + transferId);
+                IRestResponse<Transfer> response = client.Get<Transfer>(request);
+
+                CheckError(response); // Will throw if there's an error
+                return response.Data;
+            }
         }
 
 

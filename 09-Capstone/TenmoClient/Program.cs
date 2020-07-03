@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TenmoClient.Data;
-using TenmoServer.Models;
+using TenmoClient.Models;
 
 namespace TenmoClient
 {
@@ -109,7 +109,15 @@ namespace TenmoClient
                 }
                 else if (menuSelection == 2)
                 {
-                    // View your past transfers
+                    List<Transfer> transfers = new List<Transfer>();
+                    transfers = apiService.GetTransfers();
+                    foreach (Transfer transfer in transfers)
+                    {
+                        Console.WriteLine(transfer);
+                    }
+                    int transferId = GetInteger("Please enter transfer ID to view details:  ");
+                    Transfer transferDetails = apiService.GetTransferById(transferId);
+                    Console.WriteLine(transferDetails);
 
                 }
                 //else if (menuSelection == 3)
@@ -119,7 +127,7 @@ namespace TenmoClient
                 //}
                 else if (menuSelection == 4)
                 {
-                    List <Account> accounts = apiService.GetAccounts();
+                    List<Account> accounts = apiService.GetAccounts();
                     if (accounts.Count == 0 || accounts == null)
                     {
                         Console.WriteLine("No users found!");
@@ -192,6 +200,22 @@ namespace TenmoClient
             }
             return resultValue;
         }
-        //static public Transfer GetTransfer()
+        static public string GetString(string message)
+        {
+            while (true)
+            {
+                Console.Write(message + " ");
+                string userInput = Console.ReadLine().Trim();
+                if (!String.IsNullOrEmpty(userInput))
+                {
+                    return userInput;
+                }
+                else
+                {
+                    Console.WriteLine("!!! Invalid input. Please enter a valid string.");
+                }
+            }
+        }
+        
     }
 }

@@ -20,7 +20,7 @@ namespace TenmoServer.DAO
                 Update accounts set balance = balance - @amount WHERE account_id = @accountIdFrom;
                 Update accounts set balance = balance + @amount WHERE account_id = @accountIdTo;
                 Insert INTO transfers (transfer_type_id, transfer_status_id, account_from, account_to, amount)
-                    values(@transferType, @transferStatus, @accountIdFrom, @accountIdTo, @amount) SELECT @@IDENTITY;
+                    values(@transferType, @transferStatus, @accountIdFrom, @accountIdTo, @amount) SELECT @@IDENTITY
                 Commit Transaction
                 ";
             try
@@ -43,7 +43,7 @@ namespace TenmoServer.DAO
                 throw;
             }
         }
-        public List<Transfer> GetTransfers(Account account)
+        public List<Transfer> GetTransfers(string userName)
         {
             Transfer transfer;
             List<Transfer> transfers = new List<Transfer>();
@@ -62,7 +62,7 @@ namespace TenmoServer.DAO
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@userName", account.Username);
+                    cmd.Parameters.AddWithValue("@userName", userName);
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())

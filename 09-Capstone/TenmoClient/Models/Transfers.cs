@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TenmoServer.Models
+namespace TenmoClient.Models
 {
     public class Transfer
     {
@@ -13,5 +13,15 @@ namespace TenmoServer.Models
         public int Account_From { get; set; }
         public int Account_To { get; set; }
         public decimal Amount { get; set; }
+        public override string ToString()
+        {
+            return $"Id: {Transfer_Id}\n" +
+                    $"From: {Account_From}\n" +
+                    $"To: {Account_To}\n" +
+                    $"Type: {Transfer_Type_Id}\n" +
+                    $"Status: Approved\n" +
+                    $"Amount: {Amount}\n";
+                    
+        }
     }
 }

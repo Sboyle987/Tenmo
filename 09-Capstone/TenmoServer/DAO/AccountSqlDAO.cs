@@ -8,8 +8,6 @@ namespace TenmoServer.DAO
     public class AccountSqlDAO : IAccountDAO
     {
         private readonly string connectionString;
-        private readonly User user;
-
         public AccountSqlDAO(string dbConnectionString)
         {
             connectionString = dbConnectionString;
@@ -39,8 +37,6 @@ namespace TenmoServer.DAO
             Account account = new Account();
             try
             {
-                
-
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();

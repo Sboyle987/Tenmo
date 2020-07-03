@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using TenmoServer.DAO;
 using TenmoServer.Models;
 
@@ -21,9 +22,11 @@ namespace TenmoServer.Controllers
             this.userDAO = userDAO;
         }
         [HttpGet]
-        public IActionResult GetAccounts()
+        public ActionResult<List<Account>> GetAccounts() //THIS IS WHAT CHANGED, the action result had no <List<Account>>
         {
-            return Ok(accountDAO.GetAccounts());
+            List<Account> accounts = new List<Account>();
+            accounts = accountDAO.GetAccounts();
+            return Ok(accounts);
         }
         [HttpPost("exchange")]
         public IActionResult TransferMoney(Transfer transfer)
@@ -43,9 +46,9 @@ namespace TenmoServer.Controllers
             return result;
         }
         [HttpGet("list")]
-        public IActionResult GetTransfers(Account account)
+        public IActionResult GetTransfers()
         {
-            return Ok(transferDAO.GetTransfers(account));
+            return Ok(transferDAO.GetTransfers(UserName));
         }
         [HttpGet("{id}")]
         public IActionResult GetTransfersById(int id)

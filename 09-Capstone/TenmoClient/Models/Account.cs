@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace TenmoServer.Models
+namespace TenmoClient.Models
 {
     public class Account
     {

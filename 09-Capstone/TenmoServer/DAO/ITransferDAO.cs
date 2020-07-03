@@ -1,9 +1,11 @@
-﻿using TenmoServer.Models;
+﻿using System.Collections.Generic;
+using TenmoServer.Models;
 
 namespace TenmoServer.DAO
 {
     public interface ITransferDAO
     {
-        void TransferMoney(Transfer transfers);
+        List<Transfer> GetTransfers(Transfer transfer);
+        Transfer TransferMoney(Transfer transfers);
     }
 }

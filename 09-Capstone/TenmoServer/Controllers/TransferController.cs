@@ -42,5 +42,10 @@ namespace TenmoServer.Controllers
             else result = BadRequest();
             return result;
         }
+        [HttpGet("list")]
+        public IActionResult GetTransfers(Transfer transfer)
+        {
+            return Ok(transferDAO.GetTransfers(transfer));
+        }
     }
 }

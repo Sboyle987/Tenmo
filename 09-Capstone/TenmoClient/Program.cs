@@ -87,10 +87,8 @@ namespace TenmoClient
                 Console.WriteLine("Welcome to TEnmo! Please make a selection: ");
                 Console.WriteLine("1: View your current balance");
                 Console.WriteLine("2: View your past transfers");
-                Console.WriteLine("3: View your pending requests");
-                Console.WriteLine("4: Send TE bucks");
-                Console.WriteLine("5: Request TE bucks");
-                Console.WriteLine("6: Log in as different user");
+                Console.WriteLine("3: Send TE bucks");
+                Console.WriteLine("4: Log in as different user");
                 Console.WriteLine("0: Exit");
                 Console.WriteLine("---------");
                 Console.Write("Please choose an option: ");
@@ -120,12 +118,7 @@ namespace TenmoClient
                     Console.WriteLine(transferDetails);
 
                 }
-                //else if (menuSelection == 3)
-                //{
-                ////    View your pending requests
-
-                //}
-                else if (menuSelection == 4)
+                else if (menuSelection == 3)
                 {
                     List<Account> accounts = apiService.GetAccounts();
                     if (accounts.Count == 0 || accounts == null)
@@ -137,18 +130,13 @@ namespace TenmoClient
                         Console.WriteLine(account);
                     }
                     Transfer newTransfer = new Transfer();
-                    newTransfer.Account_To = GetInteger("Enter ID of user you are sending to (0 to cancel): ");
+                    newTransfer.Account_To = GetInteger("Enter ID of user you are sending to : ");
                     newTransfer.Amount = GetDecimal("Amount: ");
                     apiService.TransferMoney(newTransfer);
                     
 
                 }
-                //else if (menuSelection == 5)
-                //{
-                //    // Request TE bucks
-
-                //}
-                else if (menuSelection == 6)
+                else if (menuSelection == 4)
                 {
                     // Log in as different user
                     Console.WriteLine("");

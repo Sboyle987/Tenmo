@@ -21,7 +21,7 @@
                     $"To: {Account_To,15}\n" +
                     $"Type: {Transfer_Type_Id,13}\n" +
                     $"Status: {null,10}Approved\n" +
-                    $"Amount: {Amount,13}\n" +
+                    $"Amount: {Amount:C}{null, 13}\n" +
                      "------------------------------------------------------\n";
         }
     }

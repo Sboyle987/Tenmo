@@ -117,12 +117,18 @@ namespace TenmoClient
                     transfers = apiService.GetTransfers();
                     foreach (Transfer transfer in transfers)
                     {
-                        Console.WriteLine(transfer);
+                        Console.WriteLine("------------------------------------");
+                        Console.WriteLine($"Transfer ID: {transfer.Transfer_Id}");
+                        Console.WriteLine($"Account From: {transfer.Account_From}");
+                        Console.WriteLine($"To Account: {transfer.Account_To}");
+                        Console.WriteLine($"Transfer Amount: {transfer.Amount:C}");
+                        Console.WriteLine("------------------------------------");
                     }
+
                     int transferId = GetInteger("Please enter transfer ID to view details:  ");
                     Transfer transferDetails = apiService.GetTransferById(transferId);
                     Console.WriteLine(transferDetails);
-
+                    Pause();
                 }
                 else if (menuSelection == 3)
                 {

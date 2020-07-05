@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace TenmoClient.Models
+﻿namespace TenmoClient.Models
 {
     public class Transfer
     {
@@ -13,15 +8,21 @@ namespace TenmoClient.Models
         public int Account_From { get; set; }
         public int Account_To { get; set; }
         public decimal Amount { get; set; }
+
+
         public override string ToString()
         {
-            return $"Id: {Transfer_Id}\n" +
-                    $"From: {Account_From}\n" +
-                    $"To: {Account_To}\n" +
-                    $"Type: {Transfer_Type_Id}\n" +
-                    $"Status: Approved\n" +
-                    $"Amount: {Amount}\n";
-                    
+            Account account = new Account();
+            return
+                    "------------------------------------------------------\n" +
+                    $"Id: {Transfer_Id,15}\n" +
+//                  $"User Name {account.Username}\n" +   // TODO Figure out how to get username info
+                    $"From: {Account_From,13}\n" +
+                    $"To: {Account_To,15}\n" +
+                    $"Type: {Transfer_Type_Id,13}\n" +
+                    $"Status: {null,10}Approved\n" +
+                    $"Amount: {Amount,13}\n" +
+                     "------------------------------------------------------\n";
         }
     }
 }

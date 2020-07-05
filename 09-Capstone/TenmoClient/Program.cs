@@ -11,8 +11,8 @@ namespace TenmoClient
         private static readonly AuthService authService = new AuthService();
         private static APIService apiService;
         private readonly static string API_Base_Url = "https://localhost:44315";
-
-
+        static private ConsoleColor originalForegroundColor = Console.ForegroundColor;
+        static private ConsoleColor originalBackgroundColor = Console.BackgroundColor;
 
         static void Main(string[] args)
         {
@@ -25,7 +25,8 @@ namespace TenmoClient
                 int loginRegister = -1;
                 while (loginRegister != 1 && loginRegister != 2)
                 {
-                    Console.WriteLine("Welcome to TEnmo!");
+                    PrintHeader();
+                    SetColor(ConsoleColor.Green);
                     Console.WriteLine("1: Login");
                     Console.WriteLine("2: Register");
                     Console.WriteLine("0: Exit");
@@ -83,8 +84,12 @@ namespace TenmoClient
             int menuSelection = -1;
             while (menuSelection != 0)
             {
+                Console.Clear();
                 Console.WriteLine("");
-                Console.WriteLine("Welcome to TEnmo! Please make a selection: ");
+                ResetColor();
+                SetColor(ConsoleColor.DarkCyan);
+                PrintHeader();
+                SetColor(ConsoleColor.Green);
                 Console.WriteLine("1: View your current balance");
                 Console.WriteLine("2: View your past transfers");
                 Console.WriteLine("3: Send TE bucks");
@@ -103,6 +108,7 @@ namespace TenmoClient
                     //
                     decimal balance = apiService.GetAccountBalance();
                     Console.WriteLine($"Your current account balance is : {balance:C}");
+                    Pause();
 
                 }
                 else if (menuSelection == 2)
@@ -120,6 +126,8 @@ namespace TenmoClient
                 }
                 else if (menuSelection == 3)
                 {
+                    Console.Clear();
+
                     List<Account> accounts = apiService.GetAccounts();
                     if (accounts.Count == 0 || accounts == null)
                     {
@@ -130,14 +138,15 @@ namespace TenmoClient
                         Console.WriteLine(account);
                     }
                     Transfer newTransfer = new Transfer();
+
                     newTransfer.Account_To = GetInteger("Enter ID of user you are sending to : ");
                     newTransfer.Amount = GetDecimal("Amount: ");
                     apiService.TransferMoney(newTransfer);
-                    
 
                 }
                 else if (menuSelection == 4)
                 {
+                    Console.Clear();
                     // Log in as different user
                     Console.WriteLine("");
                     UserService.SetLogin(new API_User()); //wipe out previous login info
@@ -145,13 +154,14 @@ namespace TenmoClient
                 }
                 else
                 {
+                    Console.Clear();
                     Console.WriteLine("Goodbye!");
                     Environment.Exit(0);
                 }
 
             }
         }
-
+        #region Helper Methods
         static public int GetInteger(string message)
         {
             int resultValue = 0;
@@ -204,6 +214,37 @@ namespace TenmoClient
                 }
             }
         }
-        
+        static public void PrintHeader()
+        {
+            SetColor(ConsoleColor.DarkCyan);
+            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("Welcome to TEnmo!"));
+            ResetColor();
+        }
+        static public void SetColor(ConsoleColor foregroundColor)
+        {
+            Console.ForegroundColor = foregroundColor;
+        }
+
+        static public void SetColor(ConsoleColor foregroundColor, ConsoleColor backgroundColor)
+        {
+            Console.ForegroundColor = foregroundColor;
+            Console.BackgroundColor = backgroundColor;
+        }
+        static public void ResetColor()
+        {
+            Console.ForegroundColor = originalForegroundColor;
+            Console.BackgroundColor = originalBackgroundColor;
+        }
+        static public void Pause()
+        {
+            Console.Write("Press Enter to continue.");
+            Console.ReadLine();
+        }
+        static public void Pause(string message)
+        {
+            Console.Write(message + " Press Enter to continue.");
+            Console.ReadLine();
+        }
+        #endregion
     }
 }

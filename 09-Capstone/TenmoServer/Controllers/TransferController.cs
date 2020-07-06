@@ -35,9 +35,9 @@ namespace TenmoServer.Controllers
             decimal balance = accountDAO.GetBalanceByName(UserName);
             if (transfer.Amount <= balance)
             {
-                transfer.Account_From = UserId;
-                transfer.Transfer_Type_Id = 2;
-                transfer.Transfer_Status_Id = 2;
+                transfer.AccountFrom = UserId;
+                transfer.TransferTypeId = 2;
+                transfer.TransferStatusId = 2;
                 transferDAO.TransferMoney(transfer);
                 result = Ok();
                 return result;

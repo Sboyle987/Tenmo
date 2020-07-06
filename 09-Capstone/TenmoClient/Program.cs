@@ -118,9 +118,9 @@ namespace TenmoClient
                     foreach (Transfer transfer in transfers)
                     {
                         Console.WriteLine("------------------------------------");
-                        Console.WriteLine($"Transfer ID: {transfer.Transfer_Id}");
-                        Console.WriteLine($"Account From: {transfer.Account_From}");
-                        Console.WriteLine($"To Account: {transfer.Account_To}");
+                        Console.WriteLine($"Transfer ID: {transfer.TransferId}");
+                        Console.WriteLine($"Account From: {transfer.UsernameFrom}");
+                        Console.WriteLine($"To Account: {transfer.UsernameTo}");
                         Console.WriteLine($"Transfer Amount: {transfer.Amount:C}");
                         Console.WriteLine("------------------------------------");
                     }
@@ -145,7 +145,7 @@ namespace TenmoClient
                     }
                     Transfer newTransfer = new Transfer();
 
-                    newTransfer.Account_To = GetInteger("Enter ID of user you are sending to : ");
+                    newTransfer.AccountTo = GetInteger("Enter ID of user you are sending to : ");
                     newTransfer.Amount = GetDecimal("Amount: ");
                     apiService.TransferMoney(newTransfer);
 

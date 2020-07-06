@@ -30,11 +30,11 @@ namespace TenmoServer.DAO
                     conn.Open();
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@amount", transfer.Amount);
-                    cmd.Parameters.AddWithValue("@accountIdFrom", transfer.Account_From);
-                    cmd.Parameters.AddWithValue("@accountIdTo", transfer.Account_To);
-                    cmd.Parameters.AddWithValue("@transferType", transfer.Transfer_Type_Id);
-                    cmd.Parameters.AddWithValue("@transferStatus", transfer.Transfer_Status_Id);
-                    transfer.Transfer_Id = Convert.ToInt32(cmd.ExecuteScalar());
+                    cmd.Parameters.AddWithValue("@accountIdFrom", transfer.AccountFrom);
+                    cmd.Parameters.AddWithValue("@accountIdTo", transfer.AccountTo);
+                    cmd.Parameters.AddWithValue("@transferType", transfer.TransferTypeId);
+                    cmd.Parameters.AddWithValue("@transferStatus", transfer.TransferStatusId);
+                    transfer.TransferId = Convert.ToInt32(cmd.ExecuteScalar());
                     return transfer;
                 }
             }
@@ -83,8 +83,12 @@ namespace TenmoServer.DAO
         {
             Transfer transfer = new Transfer();           
             string sql = @"
-                            SELECT *
-                            FROM transfers
+                            Select uTO.username user_to, t.*, uFROM.username user_from
+                            FROM transfers t
+                            Join accounts aTO ON aTO.account_id = t.account_to
+                            Join users uTO ON uTO.user_id = aTO.user_id
+                            Join accounts aFROM ON aFROM.account_id = t.account_from
+                            Join users uFROM ON uFROM.user_id = aFROM.user_id
                             WHERE transfer_id = @transfer_Id
                           ";
             try
@@ -112,12 +116,14 @@ namespace TenmoServer.DAO
         {
             Transfer transfer = new Transfer();
 
-            transfer.Account_From = Convert.ToInt32(reader["account_from"]);
-            transfer.Transfer_Id = Convert.ToInt32(reader["transfer_id"]);
-            transfer.Transfer_Type_Id = Convert.ToInt32(reader["transfer_type_id"]);
-            transfer.Transfer_Status_Id = Convert.ToInt32(reader["transfer_status_id"]);
-            transfer.Account_To = Convert.ToInt32(reader["account_to"]);
+            transfer.AccountFrom = Convert.ToInt32(reader["account_from"]);
+            transfer.TransferId = Convert.ToInt32(reader["transfer_id"]);
+            transfer.TransferTypeId = Convert.ToInt32(reader["transfer_type_id"]);
+            transfer.TransferStatusId = Convert.ToInt32(reader["transfer_status_id"]);
+            transfer.AccountTo = Convert.ToInt32(reader["account_to"]);
             transfer.Amount = Convert.ToDecimal(reader["amount"]);
+            transfer.UsernameFrom = Convert.ToString(reader["user_from"]);
+            transfer.UsernameTo = Convert.ToString(reader["user_to"]);
 
 
             return transfer;
